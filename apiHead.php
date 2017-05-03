@@ -1,15 +1,10 @@
 <?php
+defined('APP_ROOT') or define('APP_ROOT',dirname(__FILE__));
 date_default_timezone_set('Asia/Shanghai');
 
-function get($id)
-{
-    return isset($_GET[$id])?$_GET[$id]:null;
-}
+function get($name,$default=null){return isset($_GET[$name])?$_GET[$name]:$default;}
+function post($name,$default=null){return isset($_POST[$name])?$_POST[$name]:$default;}
 
-function post($id)
-{
-    return isset($_POST[$id])?$_POST[$id]:null;
-}
 
 $existOptions=array(
     'getTicket'

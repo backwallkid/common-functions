@@ -10,4 +10,9 @@ class Header
     {
         header('Content-Type="text/plain";charset=UTF-8');
     }
+
+    public static function download($filename)
+    {
+        header('Content-Disposition: attachment; filename='.$filename);
+    }
 }
