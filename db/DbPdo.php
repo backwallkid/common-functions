@@ -19,6 +19,19 @@ class DbPdo
         }
     }
 
+    private function resetAll()
+    {
+        $this->select='*';
+        $this->where='';
+        $this->join='';
+        $this->order='';
+        $this->group='';
+        $this->having='';
+        $this->table='';
+        $this->limit='';
+        $this->alias='t';
+    }
+
     private function putConfig($config)
     {
         $host=isset($config['host'])?$config['host']:'';
@@ -48,6 +61,7 @@ class DbPdo
                 $sth->bindValue($name,$value,PDO::PARAM_STR);
             }
             $sth->execute();
+            $this->resetAll();
             return $sth;
         } catch (PDOException $e) {
             $this->error='Run failed: ' . $e->getMessage();
@@ -162,5 +176,18 @@ class DbPdo
     {
         $this->sql=$sql;$this->binds=$param;
         return $this->findAll();
+    }
+
+    public function updateBySql($sql,$param)
+    {
+        if(strpos($sql,'LIMIT')===false)$sql.=' LIMIT 1';
+        $this->sql=$sql;$this->binds=$param;
+        $sth=$this->runSql();
+        if($sth instanceof PDOStatement){
+            $sth->closeCursor();
+            return $sth->rowCount();
+        }else{
+            return $this->error;
+        }
     }
 }
