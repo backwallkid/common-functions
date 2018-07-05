@@ -39,3 +39,21 @@
 ### Upload.php
 
 自写的文件上传类，默认限制只能上传jpg和png，限制3M一下的图片。可以在new时自定义限制。
+
+### azure辅助类
+
+1. 将azure类文件夹放入扩展类处
+2. 在Base处声明辅助配置类，并将配置数据填入
+``` php
+$this->_blobConfig=new BlobConfig();
+$this->_blobConfig->setEmulator(false);//关闭模拟器
+$this->_blobConfig->setAccountKey('STORAGE_ACCOUNT_KEY');
+$this->_blobConfig->setAccountName('STORAGE_ACCOUNT_NAME');
+$this->_blobConfig->setDomain('STORAGE_DOMAIN');
+$this->_blobConfig->setForceUseContainer('STORAGE_CONTAINER_VIDEO');
+```
+3. 在需要调用的地方声明blob类并填入辅助配置类
+``` php
+$bs=new BlobStorage($this->_blobConfig);
+$cndPath=$bs->upload($blobName,$fileToUpload);
+```
