@@ -4,7 +4,11 @@ date_default_timezone_set('Asia/Shanghai');
 
 function get($name,$default=null){return isset($_GET[$name])?$_GET[$name]:$default;}
 function post($name,$default=null){return isset($_POST[$name])?$_POST[$name]:$default;}
-
+function response($data){
+    header('Content-type: application/json');
+    echo json_encode($data);
+    exit;
+}
 
 $existOptions=array(
     'getTicket'
